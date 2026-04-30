@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>貓咪世界:漂浮群島</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;500;700&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* === DESIGN TOKENS === */
+:root {
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3.5rem);
+  --text-3xl: clamp(2.5rem, 1rem + 4vw, 5rem);
+
+  --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem;
+  --space-4: 1rem; --space-5: 1.25rem; --space-6: 1.5rem;
+  --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem;
+  --space-16: 4rem; --space-20: 5rem; --space-24: 6rem;
+
+  --radius-sm: 0.375rem; --radius-md: 0.5rem; --radius-lg: 0.75rem;
+  --radius-xl: 1rem; --radius-2xl: 1.5rem; --radius-full: 9999px;
+
+  --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font-display: 'Noto Serif TC', Georgia, serif;
+  --font-body: 'Noto Sans TC', sans-serif;
+
+  --content-narrow: 640px;
+  --content-default: 960px;
+  --content-wide: 1200px;
+}
+
+/* Light mode — soft sakura/spring palette */
+:root, [data-theme="light"] {
+  --color-bg: #faf8f5;
+  --color-surface: #fdfcfa;
+  --color-surface-2: #fff;
+  --color-surface-offset: #f4f0eb;
+  --color-surface-dynamic: #ece7e0;
+  --color-divider: #ddd9d3;
+  --color-border: #d5d0c9;
+  --color-text: #2d2520;
+  --color-text-muted: #7a6f67;
+  --color-text-faint: #b8b0a8;
+  --color-text-inverse: #fdfcfa;
+  --color-primary: #8b4a6e;
+  --color-primary-hover: #6e3555;
+  --color-primary-active: #52253f;
+  --color-primary-highlight: #f2dfe9;
+  --color-accent: #c9836a;
+  --color-accent-light: #f7e8e2;
+  --color-spring: #5a8a5e;
+  --color-spring-light: #e4f0e5;
+  --shadow-sm: 0 1px 3px rgba(45, 37, 32, 0.06);
+  --shadow-md: 0 4px 16px rgba(45, 37, 32, 0.09);
+  --shadow-lg: 0 12px 40px rgba(45, 37, 32, 0.13);
+  --nav-bg: rgba(250, 248, 245, 0.88);
+}
+
+[data-theme="dark"] {
+  --color-bg: #18130f;
+  --color-surface: #1e1814;
+  --color-surface-2: #231e19;
+  --color-surface-offset: #1b1712;
+  --color-surface-dynamic: #2a2420;
+  --color-divider: #2e2823;
+  --color-border: #3a332e;
+  --color-text: #e8e0d8;
+  --color-text-muted: #9a8f87;
+  --color-text-faint: #5a5450;
+  --color-text-inverse: #2d2520;
+  --color-primary: #d4839e;
+  --color-primary-hover: #e09eb6;
+  --color-primary-active: #ecb9cb;
+  --color-primary-highlight: #3a2830;
+  --color-accent: #e0a890;
+  --color-accent-light: #3a2820;
+  --color-spring: #7fae83;
+  --color-spring-light: #1e2e1f;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.25);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.35);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.45);
+  --nav-bg: rgba(24, 19, 15, 0.88);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg: #18130f; --color-surface: #1e1814; --color-surface-2: #231e19;
+    --color-surface-offset: #1b1712; --color-surface-dynamic: #2a2420;
+    --color-divider: #2e2823; --color-border: #3a332e;
+    --color-text: #e8e0d8; --color-text-muted: #9a8f87; --color-text-faint: #5a5450;
+    --color-text-inverse: #2d2520; --color-primary: #d4839e;
+    --color-primary-hover: #e09eb6; --color-primary-active: #ecb9cb;
+    --color-primary-highlight: #3a2830; --color-accent: #e0a890;
+    --color-accent-light: #3a2820; --color-spring: #7fae83;
+    --color-spring-light: #1e2e1f;
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.25); --shadow-md: 0 4px 16px rgba(0,0,0,0.35);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,0.45); --nav-bg: rgba(24,19,15,0.88);
+  }
+}
+
+/* === BASE === */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: var(--space-16); -webkit-font-smoothing: antialiased; }
+body { min-height: 100dvh; font-family: var(--font-body); font-size: var(--text-base); color: var(--color-text); background: var(--color-bg); line-height: 1.7; }
+img, picture, video, svg { display: block; max-width: 100%; height: auto; }
+button { cursor: pointer; background: none; border: none; font: inherit; color: inherit; }
+a { color: inherit; text-decoration: none; }
+a, button, [role="button"] { transition: color var(--transition), background var(--transition), border-color var(--transition), box-shadow var(--transition), opacity var(--transition); }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+h1,h2,h3,h4,h5,h6 { font-family: var(--font-display); line-height: 1.2; text-wrap: balance; }
+p,li { text-wrap: pretty; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* === NAVIGATION === */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-divider);
+  padding: var(--space-3) var(--space-6);
+}
+.nav-inner {
+  max-width: var(--content-wide);
+  margin-inline: auto;
+  display: flex; align-items: center; justify-content: space-between; gap: var(--space-4);
+}
+.nav-logo {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-family: var(--font-display); font-weight: 700;
+  font-size: var(--text-sm); color: var(--color-text);
+}
+.nav-logo svg { color: var(--color-primary); }
+.nav-links {
+  display: flex; align-items: center; gap: var(--space-1); list-style: none;
+}
+.nav-links a {
+  font-size: var(--text-sm); padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md); color: var(--color-text-muted); font-weight: 500;
+}
+.nav-links a:hover, .nav-links a.active { color: var(--color-primary); background: var(--color-primary-highlight); }
+.nav-actions { display: flex; align-items: center; gap: var(--space-2); }
+.theme-toggle {
+  width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-full); color: var(--color-text-muted);
+}
+.theme-toggle:hover { background: var(--color-surface-offset); color: var(--color-text); }
+.hamburger { display: none; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: var(--radius-md); color: var(--color-text-muted); }
+.hamburger:hover { background: var(--color-surface-offset); }
+
+/* === PAGES === */
+.page { display: none; }
+.page.active { display: block; }
+
+/* === HERO === */
+.hero {
+  min-height: calc(100dvh - 64px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: var(--space-16) var(--space-6);
+  position: relative; overflow: hidden;
+  background: linear-gradient(160deg, var(--color-surface) 0%, var(--color-accent-light) 40%, var(--color-primary-highlight) 70%, var(--color-spring-light) 100%);
+}
+.hero-eyebrow {
+  font-size: var(--text-xs); letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--color-text-faint); margin-bottom: var(--space-4);
+  font-family: var(--font-body); font-weight: 500;
+}
+.hero-title {
+  font-size: var(--text-3xl); font-weight: 700; color: var(--color-text);
+  margin-bottom: var(--space-4); line-height: 1.1;
+}
+.hero-subtitle {
+  font-size: var(--text-lg); color: var(--color-text-muted);
+  margin-bottom: var(--space-8); font-weight: 400;
+  font-family: var(--font-display);
+}
+.hero-desc {
+  max-width: 56ch; font-size: var(--text-base); color: var(--color-text-muted);
+  margin-bottom: var(--space-10); margin-inline: auto;
+}
+.hero-badges {
+  display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; margin-bottom: var(--space-10);
+}
+.badge {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+  font-size: var(--text-sm); font-weight: 500;
+  background: var(--color-surface-2); border: 1px solid var(--color-border);
+  color: var(--color-text-muted); box-shadow: var(--shadow-sm);
+}
+.badge.pink { background: var(--color-primary-highlight); border-color: var(--color-primary-highlight); color: var(--color-primary); }
+.badge.green { background: var(--color-spring-light); border-color: var(--color-spring-light); color: var(--color-spring); }
+.badge.orange { background: var(--color-accent-light); border-color: var(--color-accent-light); color: var(--color-accent); }
+.hero-stats {
+  display: flex; gap: var(--space-8); justify-content: center; margin-bottom: var(--space-10);
+}
+.hero-stat { text-align: center; }
+.hero-stat-num { font-family: var(--font-display); font-size: var(--text-2xl); font-weight: 700; color: var(--color-primary); line-height: 1; }
+.hero-stat-label { font-size: var(--text-xs); color: var(--color-text-muted); margin-top: var(--space-1); }
+.hero-cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: var(--space-4); width: 100%; max-width: var(--content-default);
+  margin-inline: auto;
+}
+.hero-card {
+  background: var(--color-surface-2); border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl); padding: var(--space-6);
+  text-align: left; box-shadow: var(--shadow-sm); cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.hero-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.hero-card-icon { font-size: 1.75rem; margin-bottom: var(--space-3); }
+.hero-card-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--color-text); margin-bottom: var(--space-2); }
+.hero-card-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+
+/* Sakura petals */
+.petals-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.petal {
+  position: absolute; width: 8px; height: 10px; border-radius: 100% 0 100% 0;
+  background: var(--color-primary); opacity: 0.18;
+  animation: fall linear infinite;
+}
+@keyframes fall {
+  0% { transform: translateY(-20px) rotate(0deg); opacity: 0.18; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* === SECTION LAYOUT === */
+.section { padding: clamp(var(--space-12), 6vw, var(--space-24)) var(--space-6); }
+.section-inner { max-width: var(--content-default); margin-inline: auto; }
+.section-inner.wide { max-width: var(--content-wide); }
+.section-eyebrow { font-size: var(--text-xs); letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-text-faint); margin-bottom: var(--space-3); font-weight: 500; }
+.section-title { font-size: var(--text-2xl); font-weight: 700; color: var(--color-text); margin-bottom: var(--space-4); }
+.section-sub { font-size: var(--text-base); color: var(--color-text-muted); max-width: 56ch; }
+.section-header { margin-bottom: var(--space-10); }
+
+/* === WORLD PAGE === */
+.world-hero-banner {
+  background: linear-gradient(135deg, var(--color-spring-light) 0%, var(--color-primary-highlight) 100%);
+  border: 1px solid var(--color-border); border-radius: var(--radius-2xl);
+  padding: var(--space-12) var(--space-10); text-align: center;
+  margin-bottom: var(--space-12);
+}
+.world-hero-emoji { font-size: 4rem; margin-bottom: var(--space-6); line-height: 1; }
+.world-hero-title { font-size: var(--text-xl); font-weight: 700; color: var(--color-text); margin-bottom: var(--space-3); }
+.world-hero-en { font-size: var(--text-sm); color: var(--color-text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: var(--space-5); }
+.world-hero-desc { font-size: var(--text-base); color: var(--color-text-muted); max-width: 54ch; margin-inline: auto; line-height: 1.8; }
+.world-hero-desc + .world-hero-desc { margin-top: var(--space-3); }
+.magic-section-title {
+  font-size: var(--text-lg); font-weight: 700; color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+.magic-section-en {
+  font-size: var(--text-xs); letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--color-text-faint); margin-bottom: var(--space-8);
+}
+.magic-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(240px, 100%), 1fr));
+  gap: var(--space-5);
+}
+.magic-card {
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl); padding: var(--space-6);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.magic-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.magic-card-tag {
+  display: inline-block; font-size: var(--text-xs); font-weight: 600; padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm); margin-bottom: var(--space-3);
+  background: var(--color-spring-light); color: var(--color-spring);
+}
+.magic-card-tag.material { background: var(--color-accent-light); color: var(--color-accent); }
+.magic-card-tag.system { background: var(--color-primary-highlight); color: var(--color-primary); }
+.magic-card-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--color-text); margin-bottom: var(--space-1); }
+.magic-card-en { font-size: var(--text-xs); color: var(--color-text-faint); letter-spacing: 0.05em; margin-bottom: var(--space-3); }
+.magic-card-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.7; }
+
+/* === CHARACTERS PAGE === */
+.chars-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr));
+  gap: var(--space-4);
+}
+.char-card {
+  background: var(--color-surface); border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl); padding: var(--space-6) var(--space-5);
+  text-align: center; box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+.char-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.char-avatar {
+  width: 64px; height: 64px; border-radius: var(--radius-full);
+  background: var(--color-primary-highlight); margin: 0 auto var(--space-3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; line-height: 1;
+}
+.char-name-zh { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--color-text); }
+.char-name-en { font-size: var(--text-xs); color: var(--color-text-faint); letter-spacing: 0.1em; text-transform: uppercase; margin-top: var(--space-1); margin-bottom: var(--space-2); }
+.char-role { font-size: var(--text-xs); color: var(--color-text-muted); background: var(--color-surface-offset); padding: var(--space-1) var(--space-2); border-radius: var(--radius-full); display: inline-block; }
+
+/* === MARKET PAGE === */
+.stall-banner {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-6);
+  transition: box-shadow var(--transition);
+}
+.stall-banner:hover { box-shadow: var(--shadow-md); }
+.stall-banner-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 240px;
+}
+.stall-banner.reverse .stall-banner-inner {
+  direction: rtl;
+}
+.stall-banner.reverse .stall-banner-text {
+  direction: ltr;
+}
+.stall-banner-img {
+  overflow: hidden; position: relative;
+  background: var(--color-surface-offset);
+  min-height: 240px;
+}
+.stall-banner-img img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+.stall-banner:hover .stall-banner-img img { transform: scale(1.04); }
+.stall-banner-img-placeholder {
+  width: 100%; height: 100%; min-height: 240px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  background: linear-gradient(135deg, var(--color-accent-light) 0%, var(--color-primary-highlight) 100%);
+}
+.stall-banner-text {
+  padding: var(--space-10) var(--space-10);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.stall-name { font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700; color: var(--color-text); margin-bottom: var(--space-1); line-height: 1.2; }
+.stall-name-en { font-size: var(--text-sm); color: var(--color-text-faint); letter-spacing: 0.06em; margin-bottom: var(--space-5); }
+.stall-owner-chip {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  background: var(--color-surface-offset); border: 1px solid var(--color-border);
+  border-radius: var(--radius-full); padding: var(--space-1) var(--space-3);
+  font-size: var(--text-sm); color: var(--color-text-muted);
+  margin-bottom: var(--space-5); align-self: flex-start;
+}
+.stall-owner-dot {
+  width: 8px; height: 8px; border-radius: var(--radius-full);
+  background: var(--color-accent); flex-shrink: 0;
+}
+.stall-owner-name { font-weight: 600; color: var(--color-text); }
+.stall-desc { font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.75; max-width: 42ch; }
+.env-section-title {
+  font-size: var(--text-lg); font-weight: 700; color: var(--color-text);
+  margin-bottom: var(--space-2); margin-top: var(--space-12);
+}
+.env-section-en { font-size: var(--text-xs); letter-spacing: 0.15em; text-transform: uppercase; color: var(--color-text-faint); margin-bottom: var(--space-6); }
+.env-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+  gap: var(--space-4);
+}
+.env-card {
+  background: var(--color-surface-offset); border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl); padding: var(--space-5);
+  display: flex; gap: var(--space-4); align-items: flex-start;
+}
+.env-card-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+.env-card-title { font-size: var(--text-sm); font-weight: 700; color: var(--color-text); margin-bottom: var(--space-1); }
+.env-card-desc { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.6; }
+@media (max-width: 700px) {
+  .stall-banner-inner { grid-template-columns: 1fr; direction: ltr !important; }
+  .stall-banner-img { min-height: 200px; }
+  .stall-banner-text { padding: var(--space-6) var(--space-6); direction: ltr !important; }
+}
+
+/* === FOOTER === */
+footer {
+  background: var(--color-surface); border-top: 1px solid var(--color-divider);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+}
+.footer-inner { max-width: var(--content-default); margin-inline: auto; }
+.footer-logo { font-family: var(--font-display); font-weight: 700; font-size: var(--text-base); color: var(--color-text); margin-bottom: var(--space-3); }
+.footer-social { display: flex; gap: var(--space-4); justify-content: center; margin-bottom: var(--space-6); }
+.footer-social a {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: var(--radius-full);
+  background: var(--color-surface-offset); color: var(--color-text-muted);
+  font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.02em;
+  border: 1px solid var(--color-border); box-shadow: var(--shadow-sm);
+}
+.footer-social a:hover { background: var(--color-primary-highlight); color: var(--color-primary); }
+.footer-copy { font-size: var(--text-xs); color: var(--color-text-faint); }
+
+/* === MOBILE NAV DRAWER === */
+.mobile-nav {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 200;
+  background: rgba(45, 37, 32, 0.5); display: none; backdrop-filter: blur(4px);
+}
+.mobile-nav.open { display: block; }
+.mobile-nav-panel {
+  position: absolute; top: 0; right: 0; bottom: 0; width: min(320px, 100%);
+  background: var(--color-surface-2); padding: var(--space-6);
+  display: flex; flex-direction: column; gap: var(--space-2);
+  box-shadow: var(--shadow-lg);
+}
+.mobile-nav-close {
+  align-self: flex-end; width: 40px; height: 40px; display: flex;
+  align-items: center; justify-content: center;
+  border-radius: var(--radius-full); color: var(--color-text-muted);
+  margin-bottom: var(--space-4);
+}
+.mobile-nav-close:hover { background: var(--color-surface-offset); }
+.mobile-nav-link {
+  display: block; padding: var(--space-3) var(--space-4);
+  font-family: var(--font-display); font-size: var(--text-base); font-weight: 600;
+  color: var(--color-text-muted); border-radius: var(--radius-lg);
+}
+.mobile-nav-link:hover, .mobile-nav-link.active { color: var(--color-primary); background: var(--color-primary-highlight); }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+  .hero-stats { gap: var(--space-6); }
+  .hero-cards { grid-template-columns: 1fr; }
+  .market-intro-banner { flex-direction: column; text-align: center; }
+  .world-hero-banner { padding: var(--space-8) var(--space-6); }
+  .magic-grid, .chars-grid, .stalls-grid, .env-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .magic-grid, .chars-grid, .stalls-grid, .env-grid { grid-template-columns: 1fr; }
+  .hero-stats { flex-direction: column; gap: var(--space-4); }
+}
+
+/* === PAGE TRANSITIONS === */
+.page.active { animation: fadeIn 0.35s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+/* === NEWS PAGE === */
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: var(--space-6);
+}
+.news-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+  display: flex; flex-direction: column;
+}
+.news-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.news-card-img-wrap {
+  aspect-ratio: 16/9; overflow: hidden;
+  background: var(--color-surface-offset);
+  position: relative;
+}
+.news-card-img-wrap img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.news-card:hover .news-card-img-wrap img { transform: scale(1.05); }
+.news-card-img-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 3rem;
+  background: linear-gradient(135deg, var(--color-accent-light), var(--color-primary-highlight));
+}
+.news-card-tag {
+  position: absolute; top: var(--space-3); left: var(--space-3);
+  font-size: var(--text-xs); font-weight: 600; padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-primary); color: var(--color-text-inverse);
+  box-shadow: var(--shadow-sm);
+}
+.news-card-body { padding: var(--space-5); flex: 1; display: flex; flex-direction: column; }
+.news-card-date { font-size: var(--text-xs); color: var(--color-text-faint); margin-bottom: var(--space-2); }
+.news-card-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 700; color: var(--color-text); margin-bottom: var(--space-2); line-height: 1.4; }
+.news-card-excerpt { font-size: var(--text-sm); color: var(--color-text-muted); line-height: 1.7; flex: 1; }
+.news-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: var(--space-4); padding-top: var(--space-3); border-top: 1px solid var(--color-divider); }
+.news-card-author { font-size: var(--text-xs); color: var(--color-text-faint); }
+.news-read-more { font-size: var(--text-xs); font-weight: 600; color: var(--color-primary); display: flex; align-items: center; gap: var(--space-1); }
+
+/* News filter bar */
+.news-filters {
+  display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-8);
+}
+.news-filter-btn {
+  padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+  font-size: var(--text-sm); font-weight: 500; border: 1px solid var(--color-border);
+  color: var(--color-text-muted); background: var(--color-surface);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.news-filter-btn:hover { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-primary-highlight); }
+.news-filter-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-text-inverse); }
+
+/* === NEWS MODAL === */
+.news-modal-overlay {
+  position: fixed; inset: 0; z-index: 300;
+  background: rgba(20, 15, 10, 0.65);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--space-4);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.news-modal-overlay.open { opacity: 1; pointer-events: all; }
+
+.news-modal {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  max-width: 900px;          /* ← 740 → 900 */
+  width: 100%;
+  max-height: 92dvh;         /* ← 88 → 92 */
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.news-modal-overlay.open .news-modal { transform: translateY(0) scale(1); }
+
+.news-modal-hero {
+  position: relative; aspect-ratio: 16/7; overflow: hidden;
+  background: var(--color-surface-offset); flex-shrink: 0;
+}
+.news-modal-hero img { width: 100%; height: 100%; object-fit: cover; }
+.news-modal-hero-placeholder {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 5rem;
+  background: linear-gradient(135deg, var(--color-accent-light), var(--color-primary-highlight));
+}
+
+.news-modal-close {
+  position: absolute; top: var(--space-3); right: var(--space-3);
+  width: 36px; height: 36px; border-radius: var(--radius-full);
+  background: rgba(20,15,10,0.5); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(4px); font-size: 1.1rem;
+  transition: background var(--transition);
+}
+.news-modal-close:hover { background: rgba(20,15,10,0.8); }
+
+.news-modal-tag-abs {
+  position: absolute; bottom: var(--space-4); left: var(--space-5);
+  font-size: var(--text-xs); font-weight: 600; padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-primary); color: var(--color-text-inverse);
+}
+
+.news-modal-body {
+  padding: var(--space-8) var(--space-10);   /* ← space-7/space-8 → space-8/space-10 */
+  overflow-y: auto;
+  flex: 1;
+}
+
+.news-modal-meta { display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-5); flex-wrap: wrap; }
+.news-modal-date   { font-size: var(--text-xs); color: var(--color-text-faint); }
+.news-modal-author { font-size: var(--text-xs); color: var(--color-text-faint); }
+.news-modal-sep    { color: var(--color-text-faint); font-size: var(--text-xs); }
+
+.news-modal-title {
+  font-family: var(--font-display); font-size: var(--text-xl); font-weight: 700;
+  color: var(--color-text); line-height: 1.3;
+  margin-bottom: var(--space-6);
+}
+
+.news-modal-content { font-size: var(--text-base); color: var(--color-text-muted); line-height: 1.85; }
+.news-modal-content p { margin-bottom: var(--space-4); max-width: none; } /* ← 移除 65ch 限制 */
+.news-modal-content p:last-child { margin-bottom: 0; }
+.news-modal-content strong { color: var(--color-text); font-weight: 600; }
+
+/* 新增：h2/h3 標題樣式（markdown 生成） */
+.news-modal-content h2 {
+  font-family: var(--font-display); font-size: var(--text-lg);
+  font-weight: 700; color: var(--color-text);
+  margin-top: var(--space-8); margin-bottom: var(--space-3);
+  line-height: 1.3;
+}
+.news-modal-content h3 {
+  font-family: var(--font-display); font-size: var(--text-base);
+  font-weight: 700; color: var(--color-text);
+  margin-top: var(--space-6); margin-bottom: var(--space-2);
+}
+/* 新增：有序/無序列表 */
+.news-modal-content ol,
+.news-modal-content ul {
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+.news-modal-content li { margin-bottom: var(--space-2); line-height: 1.75; }
+
+.news-modal-tags { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-6); padding-top: var(--space-5); border-top: 1px solid var(--color-divider); }
+.news-modal-tag-chip { font-size: var(--text-xs); padding: var(--space-1) var(--space-3); border-radius: var(--radius-full); background: var(--color-surface-offset); color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
+@media (max-width: 600px) {
+  .news-modal-body { padding: var(--space-6) var(--space-6); } /* ← space-5 → space-6 */
+  .news-modal-title { font-size: var(--text-lg); }
+}
+
+/* SEARCH BOX */
+.news-search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 320px;
+}
+.news-search-wrap svg {
+  position: absolute;
+  left: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-text-faint);
+  pointer-events: none;
+}
+.news-search-input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3) var(--space-2) calc(var(--space-3) + 20px + var(--space-2));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  font-family: var(--font-body);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+.news-search-input::placeholder { color: var(--color-text-faint); }
+.news-search-input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-highlight);
+}
+
+/* === PAGINATION === */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--space-2); margin-top: var(--space-12); flex-wrap: wrap;
+}
+.page-btn {
+  min-width: 40px; height: 40px; border-radius: var(--radius-md);
+  font-size: var(--text-sm); font-weight: 500;
+  border: 1px solid var(--color-border); background: var(--color-surface);
+  color: var(--color-text-muted); cursor: pointer; padding: 0 var(--space-3);
+  display: flex; align-items: center; justify-content: center; gap: var(--space-1);
+  transition: all var(--transition);
+}
+.page-btn:hover:not(:disabled) { border-color: var(--color-primary); color: var(--color-primary); background: var(--color-primary-highlight); }
+.page-btn.active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-text-inverse); font-weight: 600; }
+.page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.page-btn.page-ellipsis { border-color: transparent; background: none; cursor: default; color: var(--color-text-faint); }
+.page-info { font-size: var(--text-xs); color: var(--color-text-faint); text-align: center; margin-top: var(--space-3); }
+.news-per-page {
+  display: flex; align-items: center; gap: var(--space-2);
+  font-size: var(--text-xs); color: var(--color-text-muted);
+}
+.news-per-page select {
+  padding: var(--space-1) var(--space-2); border-radius: var(--radius-md);
+  border: 1px solid var(--color-border); background: var(--color-surface);
+  color: var(--color-text); font-size: var(--text-xs); cursor: pointer;
+}
+.news-top-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: var(--space-6); flex-wrap: wrap; gap: var(--space-3);
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" role="navigation" aria-label="主要導航">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#" onclick="showPage('home')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2C6.5 2 3 5.5 3 9c0 2 1 3.5 2 4.5V16l2-1 1 2h8l1-2 2 1v-2.5C20 12.5 21 11 21 9c0-3.5-3.5-7-9-7z" fill="currentColor" opacity="0.15"/>
+        <path d="M4.5 4.5C3 6 2 7.5 2 9.5c0 2.5 1.5 4.5 3.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M19.5 4.5C21 6 22 7.5 22 9.5c0 2.5-1.5 4.5-3.5 5.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <ellipse cx="9" cy="9.5" rx="1.2" ry="1.5" fill="currentColor"/>
+        <ellipse cx="15" cy="9.5" rx="1.2" ry="1.5" fill="currentColor"/>
+        <path d="M9 13c1 1 5 1 6 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <path d="M8 7.5c0-1.5 1-3 4-3s4 1.5 4 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      貓咪世界
+    </a>
+    <ul class="nav-links">
+      <li><a href="#" class="nav-link active" data-page="home" onclick="showPage('home')">首頁</a></li>
+      <li><a href="#" class="nav-link" data-page="world" onclick="showPage('world')">世界觀</a></li>
+      <li><a href="#" class="nav-link" data-page="characters" onclick="showPage('characters')">角色介紹</a></li>
+      <li><a href="#" class="nav-link" data-page="market" onclick="showPage('market')">市集</a></li>
+      <li><a href="#" class="nav-link" data-page="news" onclick="showPage('news')">最近消息</a></li>
+    </ul>
+    <div class="nav-actions">
+      <button class="theme-toggle" data-theme-toggle aria-label="切換深色模式">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="hamburger" aria-label="開啟選單" id="hamburger-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobile-nav" role="dialog" aria-label="導航選單">
+  <div class="mobile-nav-panel">
+    <button class="mobile-nav-close" id="mobile-nav-close" aria-label="關閉">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <a href="#" class="mobile-nav-link active" data-page="home" onclick="showPage('home'); closeMobileNav()">首頁</a>
+    <a href="#" class="mobile-nav-link" data-page="world" onclick="showPage('world'); closeMobileNav()">世界觀</a>
+    <a href="#" class="mobile-nav-link" data-page="characters" onclick="showPage('characters'); closeMobileNav()">角色介紹</a>
+    <a href="#" class="mobile-nav-link" data-page="market" onclick="showPage('market'); closeMobileNav()">市集</a>
+    <a href="#" class="mobile-nav-link" data-page="news" onclick="showPage('news'); closeMobileNav()">最近消息</a>
+  </div>
+</div>
+
+<!-- ===== PAGE: HOME ===== -->
+<main id="page-home" class="page active">
+  <div class="hero">
+    <div class="petals-container" aria-hidden="true" id="petals"></div>
+    <p class="hero-eyebrow">The Floating Isles</p>
+    <h1 class="hero-title">漂浮群島</h1>
+    <p class="hero-subtitle">永春花谷 · 一座永遠保持春天的浮空島嶼</p>
+    <p class="hero-desc">魔法並非用來戰鬥或創造奇觀，而是完全融入日常生活，作為便利的工具或自然的現象，反而像我們理解的超能力或念動力。</p>
+    <div class="hero-badges">
+      <span class="badge pink">✨ 輕鬆</span>
+      <span class="badge green">🌿 療癒</span>
+      <span class="badge orange">🤝 社群互助</span>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-num">44</div>
+        <div class="hero-stat-label">個場景</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">9</div>
+        <div class="hero-stat-label">種分類</div>
+      </div>
+    </div>
+    <div class="hero-cards">
+      <div class="hero-card" onclick="showPage('world')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showPage('world')">
+        <div class="hero-card-icon">🏝️</div>
+        <div class="hero-card-title">世界概述</div>
+        <div class="hero-card-desc">漂浮群島是一個由多座浮空島嶼組成的奇幻世界，其中永春花谷是最繁榮的核心島嶼。</div>
+      </div>
+      <div class="hero-card" onclick="showPage('world')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showPage('world')">
+        <div class="hero-card-icon">✨</div>
+        <div class="hero-card-title">魔法系統</div>
+        <div class="hero-card-desc">這個世界的魔法是生活化的低概念魔法，光果在夜晚發光照明，柔木可以輕鬆雕刻。</div>
+      </div>
+      <div class="hero-card" onclick="showPage('market')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showPage('market')">
+        <div class="hero-card-icon">🎪</div>
+        <div class="hero-card-title">每日市集</div>
+        <div class="hero-card-desc">居民們不經營固定店鋪，而是每天推著各自的攤車，充滿了流動感與生活氣息。</div>
+      </div>
+      <div class="hero-card" onclick="showPage('characters')" role="button" tabindex="0" onkeydown="if(event.key==='Enter')showPage('characters')">
+        <div class="hero-card-icon">🤝</div>
+        <div class="hero-card-title">社群生活</div>
+        <div class="hero-card-desc">從甜品師到守衛，從茶師到農夫，每個居民都有自己的角色，大家互相幫助。</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ===== PAGE: WORLD ===== -->
+<main id="page-world" class="page">
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-eyebrow">WORLDVIEW</p>
+      <h1 class="section-title">世界觀總覽</h1>
+      <p class="section-sub">一個以「永春花谷」為中心的奇幻世界，<br>充滿了輕鬆、療癒與社群互助的溫暖氣息。</p>
+    </div>
+  </div>
+  <div class="section" style="padding-top:0">
+    <div class="section-inner">
+      <div class="world-hero-banner">
+        <div class="world-hero-emoji">🌸</div>
+        <h2 class="world-hero-title">永春花谷</h2>
+        <p class="world-hero-en">Valley of Eternal Spring</p>
+        <p class="world-hero-desc">這是一座永遠保持春天的浮空島嶼。在這裡，魔法並非用來戰鬥或創造奇觀，而是完全融入日常生活，作為便利的工具或自然的現象。</p>
+        <p class="world-hero-desc">居民們不經營固定店鋪，而是每天推著各自的攤車，在市集廣場上進行交易與社交，充滿了流動感與生活氣息。</p>
+      </div>
+      <h2 class="magic-section-title">核心魔法與元素</h2>
+      <p class="magic-section-en">Core Magic & Elements</p>
+      <div class="magic-grid">
+        <div class="magic-card">
+          <span class="magic-card-tag">植物</span>
+          <h3 class="magic-card-title">光果</h3>
+          <p class="magic-card-en">Glow-fruit</p>
+          <p class="magic-card-desc">白天吸收陽光，夜晚會發出柔和光芒的魔法水果，既是食物也是天然燈籠。</p>
+        </div>
+        <div class="magic-card">
+          <span class="magic-card-tag">植物</span>
+          <h3 class="magic-card-title">柔木</h3>
+          <p class="magic-card-en">Whisperwood</p>
+          <p class="magic-card-desc">質地異常柔軟的木材，可用水晶工具輕鬆雕刻，成品溫潤並帶有香氣。</p>
+        </div>
+        <div class="magic-card">
+          <span class="magic-card-tag">植物</span>
+          <h3 class="magic-card-title">樂竹</h3>
+          <p class="magic-card-en">Music Bamboo</p>
+          <p class="magic-card-desc">風吹過時會發出悅耳音階的特殊竹子，可用於製作樂器或沖泡茶飲。</p>
+        </div>
+        <div class="magic-card">
+          <span class="magic-card-tag material">材料</span>
+          <h3 class="magic-card-title">夢之羊毛</h3>
+          <p class="magic-card-en">Dream-Wool</p>
+          <p class="magic-card-desc">綿羊的羊毛，能夠吸收並儲存美好的夢境，紡織品能為使用者帶來安寧。</p>
+        </div>
+        <div class="magic-card">
+          <span class="magic-card-tag system">系統</span>
+          <h3 class="magic-card-title">風之信使</h3>
+          <p class="magic-card-en">Wind Messenger</p>
+          <p class="magic-card-desc">群島間的通訊方式，包括承載思念的「蒲公英團」和傳遞聲音的「迴聲石」。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ===== PAGE: CHARACTERS ===== -->
+<main id="page-characters" class="page">
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-eyebrow">RESIDENTS</p>
+      <h1 class="section-title">居民檔案</h1>
+      <p class="section-sub">認識一下生活在永春花谷的可愛居民們，每個人都有獨特的故事。</p>
+    </div>
+  </div>
+  <div class="section" style="padding-top:0">
+    <div class="section-inner wide">
+      <div class="chars-grid">
+        <!-- Main residents -->
+        <div class="char-card"><div class="char-avatar">🍵</div><div class="char-name-zh">拿鐵</div><div class="char-name-en">LATTE</div><div class="char-role">光果甜品師</div></div>
+        <div class="char-card"><div class="char-avatar">🔭</div><div class="char-name-zh">沙洛</div><div class="char-name-en">SHERLOCK</div><div class="char-role">群島守望者</div></div>
+        <div class="char-card"><div class="char-avatar">🌳</div><div class="char-name-zh">洛克</div><div class="char-name-en">ROCK</div><div class="char-role">花谷的榮譽長老</div></div>
+        <div class="char-card"><div class="char-avatar">🍃</div><div class="char-name-zh">班</div><div class="char-name-en">PAN</div><div class="char-role">靜心茶師</div></div>
+        <div class="char-card"><div class="char-avatar">📚</div><div class="char-name-zh">光</div><div class="char-name-en">LIGHT</div><div class="char-role">永春學堂的老師</div></div>
+        <div class="char-card"><div class="char-avatar">✉️</div><div class="char-name-zh">駿</div><div class="char-name-en">CHUN</div><div class="char-role">永春花谷在地郵差</div></div>
+        <div class="char-card"><div class="char-avatar">🌻</div><div class="char-name-zh">泰拉</div><div class="char-name-en">TERRA</div><div class="char-role">永春花谷首席農夫</div></div>
+        <div class="char-card"><div class="char-avatar">🐑</div><div class="char-name-zh">棉棉</div><div class="char-name-en">MIN MIN</div><div class="char-role">夢之羊毛紡織家</div></div>
+        <div class="char-card"><div class="char-avatar">🌿</div><div class="char-name-zh">葉</div><div class="char-name-en">YIP</div><div class="char-role">森林草藥學家</div></div>
+        <!-- Cafe staff -->
+        <div class="char-card"><div class="char-avatar">☕</div><div class="char-name-zh">Chai</div><div class="char-name-en">CHAI</div><div class="char-role">浪漫服務生</div></div>
+        <div class="char-card"><div class="char-avatar">🌰</div><div class="char-name-zh">Cinnamon</div><div class="char-name-en">CINNAMON</div><div class="char-role">咖啡廳服務生</div></div>
+        <div class="char-card"><div class="char-avatar">🍮</div><div class="char-name-zh">Custard</div><div class="char-name-en">CUSTARD</div><div class="char-role">快樂廚師</div></div>
+        <div class="char-card"><div class="char-avatar">🍪</div><div class="char-name-zh">Oreo</div><div class="char-name-en">OREO</div><div class="char-role">甜點女僕</div></div>
+        <div class="char-card"><div class="char-avatar">🧮</div><div class="char-name-zh">Sesame</div><div class="char-name-en">SESAME</div><div class="char-role">精明算盤手</div></div>
+        <div class="char-card"><div class="char-avatar">🍫</div><div class="char-name-zh">Truffle</div><div class="char-name-en">TRUFFLE</div><div class="char-role">藍圍裙大廚</div></div>
+        <div class="char-card"><div class="char-avatar">🥃</div><div class="char-name-zh">Whiskey</div><div class="char-name-en">WHISKEY</div><div class="char-role">紳士調酒師</div></div>
+        <div class="char-card"><div class="char-avatar">🍡</div><div class="char-name-zh">Mochi</div><div class="char-name-en">MOCHI</div><div class="char-role">甜美接待員</div></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ===== PAGE: MARKET ===== -->
+<main id="page-market" class="page">
+  <div class="section">
+    <div class="section-inner" style="text-align:center">
+      <p class="section-eyebrow">DAILY MARKET</p>
+      <h1 class="section-title">每日市集</h1>
+      <p class="section-sub" style="margin-inline:auto">居民們每天推著各自的攤車，在市集廣場上進行交易與社交，<br>充滿了流動感與生活氣息。</p>
+    </div>
+  </div>
+  <div class="section" style="padding-top:0">
+    <div class="section-inner" style="text-align:center; margin-bottom:var(--space-8)">
+      <h2 style="font-family:var(--font-display);font-size:var(--text-lg);font-weight:700;color:var(--color-text);margin-bottom:var(--space-1)">特色攤位</h2>
+      <p style="font-size:var(--text-sm);color:var(--color-text-faint);letter-spacing:0.1em">Featured Stalls</p>
+    </div>
+    <div class="section-inner wide">
+
+      <!-- 攤位 1 — 圖左文右 -->
+      <div class="stall-banner">
+        <div class="stall-banner-inner">
+          <div class="stall-banner-img">
+            <div class="stall-banner-img-placeholder">🍡</div>
+          </div>
+          <div class="stall-banner-text">
+            <h3 class="stall-name">貓掌小點</h3>
+            <p class="stall-name-en">The Paw Pad Pantry</p>
+            <div class="stall-owner-chip">
+              <span class="stall-owner-dot"></span>
+              店主: <span class="stall-owner-name">拿鐵 (Latte)</span>
+            </div>
+            <p class="stall-desc">提供美味與慰藉的移動甜品攤，熱愛一切柔軟舒適的事物。光果甜品在夜晚微微發光，是花谷最受歡迎的攤位。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 攤位 2 — 文左圖右（reverse） -->
+      <div class="stall-banner reverse">
+        <div class="stall-banner-inner">
+          <div class="stall-banner-img">
+            <div class="stall-banner-img-placeholder">🍵</div>
+          </div>
+          <div class="stall-banner-text">
+            <h3 class="stall-name">一葉亭</h3>
+            <p class="stall-name-en">The Single Leaf Pavilion</p>
+            <div class="stall-owner-chip">
+              <span class="stall-owner-dot"></span>
+              店主: <span class="stall-owner-name">班 (Pan)</span>
+            </div>
+            <p class="stall-desc">極簡茶攤，提供心靈的片刻安寧，充滿儀式感。以樂竹為材料泡製的竹音茶，是市集最靜謐的一隅。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 攤位 3 — 圖左文右 -->
+      <div class="stall-banner">
+        <div class="stall-banner-inner">
+          <div class="stall-banner-img">
+            <div class="stall-banner-img-placeholder">🌻</div>
+          </div>
+          <div class="stall-banner-text">
+            <h3 class="stall-name">泰拉的恩惠</h3>
+            <p class="stall-name-en">Terra's Bounty</p>
+            <div class="stall-owner-chip">
+              <span class="stall-owner-dot"></span>
+              店主: <span class="stall-owner-name">泰拉 (Terra)</span>
+            </div>
+            <p class="stall-desc">市集最豐盛的食材攤，所有豐饒的來源。每天清晨從花谷田地新鮮採摘，光果、樂竹與各種魔法蔬果一應俱全。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 攤位 4 — 文左圖右（reverse） -->
+      <div class="stall-banner reverse">
+        <div class="stall-banner-inner">
+          <div class="stall-banner-img">
+            <div class="stall-banner-img-placeholder">🧶</div>
+          </div>
+          <div class="stall-banner-text">
+            <h3 class="stall-name">雲朵工坊</h3>
+            <p class="stall-name-en">The Cloud Workshop</p>
+            <div class="stall-owner-chip">
+              <span class="stall-owner-dot"></span>
+              店主: <span class="stall-owner-name">棉棉 (Min Min)</span>
+            </div>
+            <p class="stall-desc">充滿柔軟織品的夢幻攤位，提供實質與心靈的溫暖。夢之羊毛製成的披巾據說能讓使用者每夜都有美夢相伴。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 攤位 5 — 圖左文右 -->
+      <div class="stall-banner">
+        <div class="stall-banner-inner">
+          <div class="stall-banner-img">
+            <div class="stall-banner-img-placeholder">🌿</div>
+          </div>
+          <div class="stall-banner-text">
+            <h3 class="stall-name">森林的贈禮</h3>
+            <p class="stall-name-en">The Forest's Gift</p>
+            <div class="stall-owner-chip">
+              <span class="stall-owner-dot"></span>
+              店主: <span class="stall-owner-name">葉 (Yip)</span>
+            </div>
+            <p class="stall-desc">掛滿藥草、擺放著藥罐的專業攤位，自然的療癒者。葉親手調製的各式草藥茶包，在花谷居民中享有極高的聲譽。</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 市集環境 -->
+      <h2 class="env-section-title">市集環境</h2>
+      <p class="env-section-en">Market Environment</p>
+      <div class="env-grid">
+        <div class="env-card">
+          <div class="env-card-icon">💨</div>
+          <div><h3 class="env-card-title">「風之信使」停靠站</h3><p class="env-card-desc">展示島嶼間聯繫的奇幻設施</p></div>
+        </div>
+        <div class="env-card">
+          <div class="env-card-icon">💡</div>
+          <div><h3 class="env-card-title">「情緒」路燈</h3><p class="env-card-desc">由發光花苞或水晶構成，光芒會隨氛圍變化</p></div>
+        </div>
+        <div class="env-card">
+          <div class="env-card-icon">🍃</div>
+          <div><h3 class="env-card-title">活的「留言板」</h3><p class="env-card-desc">由巨大葉片構成的魔法公佈欄，文字會自然更新</p></div>
+        </div>
+        <div class="env-card">
+          <div class="env-card-icon">🌸</div>
+          <div><h3 class="env-card-title">公共休憩區</h3><p class="env-card-desc">提供攤位外的互動場所，強調分享與交流</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<!-- ===== PAGE: NEWS ===== -->
+<main id="page-news" class="page">
+  <div class="section">
+    <div class="section-inner">
+      <p class="section-eyebrow">FYP NEWS UPDATE</p>
+      <h1 class="section-title">最近消息</h1>
+      <p class="section-sub">永春花谷的最新動態與 FYP 開發日誌，點擊圖片查看完整內容。</p>
+    </div>
+  </div>
+  <div class="section" style="padding-top:0">
+    <div class="section-inner wide">
+      <div class="news-top-bar">
+        <div class="news-filters" style="margin-bottom:0">
+          <button class="news-filter-btn active" data-filter="all" onclick="filterNews('all')">全部</button>
+          <button class="news-filter-btn" data-filter="遊戲" onclick="filterNews('遊戲')">遊戲</button>
+          <button class="news-filter-btn" data-filter="科技" onclick="filterNews('科技')">科技</button>
+          <button class="news-filter-btn" data-filter="生活" onclick="filterNews('生活')">生活</button>
+          <button class="news-filter-btn" data-filter="latest" onclick="filterNews('latest')">最新</button>
+        </div>
+        <div class="news-search-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+          </svg>
+          <input
+            type="search"
+            id="news-search-input"
+            class="news-search-input"
+            placeholder="搜尋新聞標題..."
+            oninput="searchNews(this.value)"
+            aria-label="搜尋新聞"
+          />
+        </div>
+        <div class="news-per-page">
+          <select id="per-page-select" onchange="changePerPage(this.value)">
+            <option value="6">6 篇</option>
+            <option value="9" selected>9 篇</option>
+            <option value="12">12 篇</option>
+            <option value="18">18 篇</option>
+          </select>
+        </div>
+      </div>
+      <div class="news-grid" id="news-grid"></div>
+      <div id="pagination-container"></div>
+      <p class="page-info" id="page-info"></p>
+    </div>
+  </div>
+</main>
+
+<!-- NEWS MODAL -->
+<div class="news-modal-overlay" id="news-modal-overlay" role="dialog" aria-modal="true" aria-label="新聞詳情">
+  <div class="news-modal" id="news-modal">
+    <div class="news-modal-hero" id="modal-hero">
+      <div class="news-modal-hero-placeholder" id="modal-hero-placeholder"></div>
+      <button class="news-modal-close" id="modal-close-btn" aria-label="關閉">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <span class="news-modal-tag-abs" id="modal-tag-abs"></span>
+    </div>
+    <div class="news-modal-body">
+      <div class="news-modal-meta">
+        <span class="news-modal-date" id="modal-date"></span>
+        <span class="news-modal-sep">·</span>
+        <span class="news-modal-author" id="modal-author"></span>
+      </div>
+      <h2 class="news-modal-title" id="modal-title"></h2>
+      <div class="news-modal-content" id="modal-content"></div>
+      <div class="news-modal-tags" id="modal-tags"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER (shared) -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">貓咪世界:漂浮群島</div>
+    <div class="footer-social">
+      <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Instagram">IG</a>
+      <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter/X">TW</a>
+      <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Facebook">FB</a>
+    </div>
+    <p class="footer-copy">© 2026 The Floating Isles. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+// Theme toggle
+(function(){
+  const t = document.querySelector('[data-theme-toggle]');
+  const r = document.documentElement;
+  let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+  r.setAttribute('data-theme', d);
+  const sunSVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+  const moonSVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+  if (t) {
+    t.innerHTML = d === 'dark' ? sunSVG : moonSVG;
+    t.addEventListener('click', () => {
+      d = d === 'dark' ? 'light' : 'dark';
+      r.setAttribute('data-theme', d);
+      t.setAttribute('aria-label', '切換' + (d === 'dark' ? '淺色' : '深色') + '模式');
+      t.innerHTML = d === 'dark' ? sunSVG : moonSVG;
+    });
+  }
+})();
+
+// Page routing
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId).classList.add('active');
+  // Update nav links
+  document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === pageId);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  return false;
+}
+
+// Mobile nav
+document.getElementById('hamburger-btn').addEventListener('click', () => {
+  document.getElementById('mobile-nav').classList.add('open');
+});
+document.getElementById('mobile-nav-close').addEventListener('click', closeMobileNav);
+document.getElementById('mobile-nav').addEventListener('click', function(e) {
+  if (e.target === this) closeMobileNav();
+});
+function closeMobileNav() {
+  document.getElementById('mobile-nav').classList.remove('open');
+}
+
+// Sakura petals
+(function(){
+  const container = document.getElementById('petals');
+  if (!container) return;
+  for (let i = 0; i < 18; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `
+      left: ${Math.random() * 100}%;
+      animation-duration: ${5 + Math.random() * 8}s;
+      animation-delay: ${-Math.random() * 12}s;
+      transform: scale(${0.6 + Math.random() * 1.2});
+      opacity: ${0.1 + Math.random() * 0.15};
+    `;
+    container.appendChild(p);
+  }
+})();
+
+// ===== NEWS CONFIG =====
+// 🔧 把這裡換成你的後端 API URL
+const NEWS_API_URL = 'http://localhost:3000/api/news';
+
+// ===== NEWS STATE =====
+// NEWS STATE
+let activeFilter = 'all';
+let searchQuery = '';
+let isLoading = false;
+let currentPage = 1;
+let newsPerPage = 9;  // ← 預設9
+let allNewsData = [];
+
+// 分頁邏輯
+function getFilteredNews() {
+  let filtered = allNewsData;
+
+  // 分類篩選（原有邏輯保留）
+  if (activeFilter === 'latest') {
+    if (!filtered.length) return [];
+    const latestDate = filtered[0].createdAt?.slice(0, 10);
+    filtered = latestDate ? filtered.filter(n => n.createdAt?.slice(0, 10) === latestDate) : filtered.slice(0, newsPerPage);
+  } else if (activeFilter !== 'all') {
+    filtered = filtered.filter(n => n.categoryLabel === activeFilter);
+  }
+
+  // ↓ 新增搜尋過濾
+  if (searchQuery.trim()) {
+    const q = searchQuery.trim().toLowerCase();
+    filtered = filtered.filter(n =>
+      (n.title || '').toLowerCase().includes(q) ||
+      (n.excerpt || '').toLowerCase().includes(q)
+    );
+  }
+
+  return filtered;
+}
+
+function renderPage() {
+  const filtered = getFilteredNews();
+  const total = filtered.length;
+  const totalPages = Math.max(1, Math.ceil(total / newsPerPage));
+  if (currentPage > totalPages) currentPage = 1;
+
+  const start = (currentPage - 1) * newsPerPage;
+  const pageItems = filtered.slice(start, start + newsPerPage);
+
+  renderNewsCards(pageItems);
+  renderPagination(totalPages, total);
+}
+
+function renderPagination(totalPages, total) {
+  const container = document.getElementById('pagination-container');
+  const info = document.getElementById('page-info');
+  if (info) info.textContent = `共 ${total} 篇 · 第 ${currentPage} / ${totalPages} 頁`;
+  if (!container) return;
+  if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+  let html = '<div class="pagination">';
+  html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || Math.abs(i - currentPage) <= 1) {
+      html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+    } else if (Math.abs(i - currentPage) === 2) {
+      html += `<button class="page-btn page-ellipsis" disabled>…</button>`;
+    }
+  }
+  html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>›</button>`;
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+function goToPage(page) {
+  const filtered = getFilteredNews();
+  const totalPages = Math.ceil(filtered.length / newsPerPage);
+  if (page < 1 || page > totalPages) return;
+  currentPage = page;
+  renderPage();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function changePerPage(val) {
+  newsPerPage = parseInt(val);
+  currentPage = 1;
+  renderPage();
+}
+
+function filterNews(filter) {
+  activeFilter = filter;
+  currentPage = 1;
+  document.querySelectorAll('.news-filter-btn').forEach(btn =>
+    btn.classList.toggle('active', btn.dataset.filter === filter));
+  renderPage();
+}
+
+function searchNews(val) {
+  searchQuery = val;
+  currentPage = 1;
+  renderPage();
+}
+
+// ===== SKELETON LOADER =====
+function renderSkeletons(count = 6) {
+  const grid = document.getElementById('news-grid');
+  if (!grid) return;
+  grid.innerHTML = Array(count).fill(0).map(() => `
+    <div class="news-card" style="pointer-events:none">
+      <div class="news-card-img-wrap" style="background:var(--color-surface-offset)">
+        <div style="width:100%;height:100%;min-height:160px;background:linear-gradient(90deg,var(--color-surface-offset) 25%,var(--color-surface-dynamic) 50%,var(--color-surface-offset) 75%);background-size:200% 100%;animation:shimmer 1.5s ease-in-out infinite"></div>
+      </div>
+      <div class="news-card-body">
+        <div style="height:0.75em;width:40%;background:var(--color-surface-offset);border-radius:4px;margin-bottom:0.5rem;animation:shimmer 1.5s ease-in-out infinite;background-size:200% 100%;background-image:linear-gradient(90deg,var(--color-surface-offset) 25%,var(--color-surface-dynamic) 50%,var(--color-surface-offset) 75%)"></div>
+        <div style="height:1em;width:85%;background:var(--color-surface-offset);border-radius:4px;margin-bottom:0.4rem;animation:shimmer 1.5s ease-in-out infinite;background-size:200% 100%;background-image:linear-gradient(90deg,var(--color-surface-offset) 25%,var(--color-surface-dynamic) 50%,var(--color-surface-offset) 75%)"></div>
+        <div style="height:1em;width:65%;background:var(--color-surface-offset);border-radius:4px;animation:shimmer 1.5s ease-in-out infinite;background-size:200% 100%;background-image:linear-gradient(90deg,var(--color-surface-offset) 25%,var(--color-surface-dynamic) 50%,var(--color-surface-offset) 75%)"></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Add shimmer keyframes if not present
+if (!document.getElementById('shimmer-style')) {
+  const s = document.createElement('style');
+  s.id = 'shimmer-style';
+  s.textContent = '@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}';
+  document.head.appendChild(s);
+}
+
+// ===== RENDER CARDS =====
+function renderNewsCards(newsArray) {
+  const grid = document.getElementById('news-grid');
+  if (!grid) return;
+  if (!newsArray.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:var(--space-16) var(--space-8);color:var(--color-text-muted)">
+      <div style="font-size:2.5rem;margin-bottom:var(--space-4)">🐾</div>
+      <h3 style="font-family:var(--font-display);color:var(--color-text);margin-bottom:var(--space-2)">暫無消息</h3>
+      <p style="font-size:var(--text-sm)">此分類目前沒有任何更新，請稍後再查看。</p>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = newsArray.map(news => `
+    <article class="news-card" onclick="openNewsModal('${news._id || news.id}')" role="button" tabindex="0"
+      onkeydown="if(event.key==='Enter')openNewsModal('${news._id || news.id}')" aria-label="${news.title}">
+      <div class="news-card-img-wrap">
+        ${news.imageUrl
+          ? `<img src="${news.imageUrl}" alt="${news.title}" width="400" height="225" loading="lazy">`
+          : `<div class="news-card-img-placeholder">${news.emoji || '📰'}</div>`
+        }
+        <span class="news-card-tag">${news.categoryLabel}</span>
+      </div>
+      <div class="news-card-body">
+        <p class="news-card-date">${formatDate(news.createdAt)}</p>
+        <h3 class="news-card-title">${news.title}</h3>
+        <p class="news-card-excerpt">${news.excerpt}</p>
+        <div class="news-card-footer">
+          <span class="news-card-author">${news.author || '永春花谷開發組'}</span>
+          <span class="news-read-more">閱讀全文
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </div>
+      </div>
+    </article>
+  `).join('');
+  // cache for modal lookup
+  window._newsCache = newsArray;
+}
+
+// ===== FORMAT DATE =====
+function formatDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  return `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日`;
+}
+
+// ===== FETCH FROM API =====
+async function fetchNews(filter = 'all') {
+  if (isLoading) return;
+  isLoading = true;
+  renderSkeletons(newsPerPage);
+  try {
+    const res = await fetch(NEWS_API_URL + '?limit=100');  // ← 一次拉所有
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const json = await res.json();
+    allNewsData = json.data ?? json;
+    window.newsCache = allNewsData;
+    renderPage();
+  } catch (err) {
+    console.warn('API unavailable, using fallback', err.message);
+    allNewsData = typeof newsDataFallback !== 'undefined' ? newsDataFallback : [];
+    renderPage();
+  } finally {
+    isLoading = false;
+  }
+}
+
+// ===== FILTER =====
+
+
+// ===== OPEN MODAL (supports both API _id and local id) =====
+async function openNewsModal(id) {
+  // Try cache first
+  const cached = (window._newsCache || []).find(n => (n._id || n.id) == id);
+  if (cached) { _renderModal(cached); return; }
+  // Fetch single item from API
+  try {
+    const res = await fetch(`${NEWS_API_URL}/${id}`);
+    const json = await res.json();
+    _renderModal(json.data || json);
+  } catch (err) {
+    console.error('Cannot load news detail:', err);
+  }
+}
+
+function _renderModal(news) {
+  const overlay = document.getElementById('news-modal-overlay');
+  const placeholder = document.getElementById('modal-hero-placeholder');
+  const heroImg = document.getElementById('modal-hero-img');
+
+  // 圖片處理
+  if (news.imageUrl) {
+    placeholder.style.display = 'none';
+    if (!heroImg) {
+      const img = document.createElement('img');
+      img.id = 'modal-hero-img';
+      img.width = 740; img.height = 320;
+      img.style.cssText = 'width:100%;height:100%;object-fit:cover';
+      placeholder.parentNode.insertBefore(img, placeholder);
+    }
+    document.getElementById('modal-hero-img').src = news.imageUrl;
+    document.getElementById('modal-hero-img').alt = news.title;
+  } else {
+    placeholder.style.display = 'flex';
+    placeholder.textContent = news.emoji || '📰';
+    if (heroImg) heroImg.remove();
+  }
+
+  // 移除 content 開頭重複標題
+  let content = news.content || '';
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = content;
+  const firstEl = tempDiv.querySelector('h1, h2, h3, p');
+  if (firstEl && firstEl.textContent.trim() === news.title.trim()) {
+    firstEl.remove();
+  }
+
+  // 填入資料（只寫一次！）
+  document.getElementById('modal-tag-abs').textContent = news.categoryLabel;
+  document.getElementById('modal-date').textContent = formatDate(news.createdAt);
+  document.getElementById('modal-author').textContent = news.author || '永春花谷開發組';
+  document.getElementById('modal-title').textContent = news.title;
+  document.getElementById('modal-content').innerHTML = tempDiv.innerHTML; // ← 只呢一次
+  document.getElementById('modal-tags').innerHTML = (news.tags || [])
+    .map(t => `<span class="news-modal-tag-chip">${t}</span>`).join('');
+
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeNewsModal() {
+  document.getElementById('news-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('modal-close-btn').addEventListener('click', closeNewsModal);
+document.getElementById('news-modal-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeNewsModal();
+});
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeNewsModal(); });
+
+// ===== FALLBACK DATA (當 API 未連線時使用) =====
+const newsDataFallback = [
+  { id:1, category:'update', categoryLabel:'版本更新', createdAt:'2026-04-27', author:'永春花谷開發組', emoji:'🌸', title:'永春花谷 v0.3 — 市集系統正式上線', excerpt:'全新每日市集系統已完成開發，居民攤位可隨時間動態更新，帶來更真實的生活感。', content:'<p>經過數週的開發與測試，<strong>每日市集系統</strong>正式在 FYP 項目中上線。居民們現在每天會推著各自的攤車在廣場上擺攤。</p><p>此次更新特別為拿鐵的「貓掌小點」甜品攤和班的「一葉亭」茶攤建立了完整的交互邏輯。</p>', tags:['市集','v0.3','FYP'] },
+  { id:2, category:'event', categoryLabel:'世界事件', createdAt:'2026-04-20', author:'永春花谷編年史官', emoji:'🌼', title:'春花節倒數開始！花谷居民準備慶典', excerpt:'一年一度的春花節即將來臨，拿鐵正在研發限定甜品，棉棉編織出了特別的節日彩帶。', content:'<p>永春花谷最重要的年度慶典——<strong>春花節</strong>——即將在下週揭幕。</p><p>甜品師拿鐵透露正在研發一款限定版「光果千層」，夜晚食用時整個甜品會微微發光。</p>', tags:['春花節','活動'] },
+  { id:3, category:'dev', categoryLabel:'開發日誌', createdAt:'2026-04-15', author:'開發組 · AI 世界生成部門', emoji:'🤖', title:'AI 新聞生成系統測試報告 — 第三週', excerpt:'基於 LLM 的世界事件自動生成已達到預期效果，生成內容與世界觀一致性達 87%。', content:'<p>FYP 的核心功能——<strong>AI 驅動的世界新聞自動生成系統</strong>——在第三週的測試中取得重要進展。</p><p>測試結果顯示，生成內容與世界觀的一致性從 61% 提升至 <strong>87%</strong>。</p>', tags:['AI生成','LLM','MongoDB','FYP'] },
+  { id:4, category:'character', categoryLabel:'角色故事', createdAt:'2026-04-10', author:'永春花谷說書人', emoji:'🔭', title:'守望者沙洛的日誌 — 關於那顆奇異的星', excerpt:'群島守望者沙洛在最近幾夜觀測到了一顆從未出現過的星，它以螺旋方式緩慢移動。', content:'<p>守望者<strong>沙洛</strong>的星圖日誌近日成為花谷居民熱議的話題。</p><p>「它發出的光帶有花朵的香氣——是的，光是可以有氣味的。」</p>', tags:['沙洛','角色故事','天文'] }
+];
+
+// ===== INIT =====
+fetchNews('all');
+
+</script>
+</body>
+</html>

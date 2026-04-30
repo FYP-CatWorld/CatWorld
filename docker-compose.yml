@@ -1,0 +1,47 @@
+services:
+  genserver:
+    platform: linux/amd64
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    build:
+      context: .
+      dockerfile: dockerfile-llm
+    container_name: GenCat_Server
+    volumes:
+      - ./Code:/Code
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - INTEL_VISIBLE_DEVICES=all
+    ports:
+      - 4476:11434
+
+  client:
+    platform: linux/amd64
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    build:
+      context: .
+      dockerfile: dockerfile-python
+    container_name: GenCat_Client
+    volumes:
+      - ./Code:/Code
+      - ./Output:/Output
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - INTEL_VISIBLE_DEVICES=all
+      - MONGO_URI=mongodb+srv://FYP_user:Fyp2526@cluster0.kgrbc7r.mongodb.net/?appName=Cluster0        # ← 加呢行
+    depends_on:
+      - genserver
+    ports:
+      - 5000:5000
+      - 3000:3000                        # ← 加呢行（Flask API port）

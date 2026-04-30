@@ -1,0 +1,35 @@
+[{
+  "_id": "glow_fruit",
+  "world_id": "floating_isles_v1",
+  "name": "光果 (Glow-fruit)",
+  "type": "植物",
+  "description": "白天吸收陽光，夜晚發出柔和光芒的魔法水果，既是食物也是天然燈籠。"
+},
+{
+  "_id": "whisperwood",
+  "world_id": "floating_isles_v1",
+  "name": "柔木 (Whisperwood)",
+  "type": "植物",
+  "description": "質地異常柔軟的木材，可用水晶工具輕鬆雕刻，成品溫潤並帶有香氣。"
+},
+{
+  "_id": "music_bamboo",
+  "world_id": "floating_isles_v1",
+  "name": "樂竹 (Music-Bamboo)",
+  "type": "植物",
+  "description": "風吹過時會發出悅耳音階的特殊竹子，可用於製作樂器或沖泡茶飲。"
+},
+{
+  "_id": "dream_wool",
+  "world_id": "floating_isles_v1",
+  "name": "夢之羊毛 (Dream-Wool)",
+  "type": "材料",
+  "description": "綿羊的羊毛，能夠吸收並儲存美好的夢境，紡織品能為使用者帶來安寧。"
+},
+{
+  "_id": "messenger_of_the_wind",
+  "world_id": "floating_isles_v1",
+  "name": "風之信使 (Messenger-of-the-Wind)",
+  "type": "系統",
+  "description": "群島間的通訊方式，包括承載思念的「蒲公英團」和傳遞聲音的「迴聲石」。"
+}]

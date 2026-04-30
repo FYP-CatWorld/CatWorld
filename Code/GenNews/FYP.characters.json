@@ -1,0 +1,78 @@
+[{
+  "_id": "latte",
+  "world_id": "floating_isles_v1",
+  "name": "拿鐵 (Latte)",
+  "species": "布偶貓(Ragdoll)",
+  "occupation": "光果甜品師 (Glow-fruit Pâtissier)",
+  "stall": "貓掌小點 (The Paw Pad Pantry)",
+  "personality": [
+    "溫暖",
+    "完美主義",
+    "潔淨",
+    "喜歡柔軟事物"
+  ],
+  "description": "溫暖好客，對甜點與潔淨有完美主義，熱愛一切柔軟舒適的事物。 ",
+  "role": "社群的溫暖之心，提供美味與安慰。"
+},
+{
+  "_id": "pan",
+  "world_id": "floating_isles_v1",
+  "name": "班 (Pan)",
+  "species": "熊貓 (Panda)",
+  "occupation": "靜心茶師 (The-Master-of-Tranquil-Tea)",
+  "stall": "一葉亭  (The Single Leaf Pavilion)",
+  "personality": [
+    "沉靜",
+    "話少",
+    "充滿儀式感",
+    "順其自然"
+  ],
+  "description": "沉靜的聆聽者，話少，動作充滿儀式感，信奉順其自然。 ",
+  "role": "社群的寧靜之所，提供心靈的片刻安寧。"
+},
+{
+  "_id": "min-min",
+  "world_id": "floating_isles_v1",
+  "name": "棉棉 (Min-Min)",
+  "species": "綿羊 (Sheep)",
+  "occupation": "夢之羊毛紡織家 (The-Weaver-of-Dream-Wool)",
+  "stall": "雲朵工坊 (The-Cloud-Workshop)",
+  "personality": [
+    "溫柔甜美",
+    "略帶害羞"
+  ],
+  "description": "溫柔甜美，略帶害羞，相信自己的作品能為大家帶來好夢。",
+  "role": "社群的溫柔慰藉，提供實質與心靈的溫暖。"
+},
+{
+  "_id": "yip",
+  "world_id": "floating_isles_v1",
+  "name": "葉 (Yip)",
+  "species": "鹿 (Deer)",
+  "occupation": "森林草藥學家 (Herbalist-of-the-Forest)",
+  "stall": "森林的贈禮 (The-Forest's-Gift)",
+  "personality": [
+    "務實",
+    "知識淵博",
+    "沉默",
+    "內斂而自信"
+  ],
+  "description": "沉默的觀察家，內斂而自信，對植物擁有無比的熱情與知識。",
+  "role": "社群的健康守護者，自然的療癒者。"
+},
+{
+  "_id": "terra",
+  "world_id": "floating_isles_v1",
+  "name": "泰拉 (Terra)",
+  "species": "牛 (Cow)",
+  "occupation": "永春花谷首席農夫 (First-Farmer-of-the-Valley)",
+  "stall": "泰拉的恩惠 (Terra's Bounty)",
+  "personality": [
+    "充滿母性",
+    "溫柔",
+    "勤勞",
+    "智慧"
+  ],
+  "description": "充滿母性，溫柔且勤勞，擁有與自然溝通的智慧",
+  "role": "社群的大地之母，所有豐饒的來源。"
+}]

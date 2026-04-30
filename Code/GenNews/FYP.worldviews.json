@@ -1,0 +1,20 @@
+[{
+  "_id": "floating_isles_v1",
+  "title": "漂浮群島 (The Floating Isles)",
+  "core_stage": "永春花谷 (Valley of Eternal Spring)",
+  "core_stage_description": "一座永遠保持春天的浮空島嶼。 ",
+  "description": "這是一份關於以「永春花谷」為中心的漂浮群島世界的綜合設定指南。所有內容皆圍繞著「輕鬆、療癒」的核心主題，旨在創造一個充滿溫情與生活感的奇幻世界。 ",
+  "themes": [
+    "輕鬆",
+    "療癒",
+    "社群互助"
+  ],
+  "tone": "輕鬆、療癒、社群互助",
+  "social_center": "每日市集 (The Daily Market)",
+  "social_center_description": "居民們不經營固定店鋪，而是每天推著各自的攤車，在市集廣場上進行交易與社交，充滿了流動感與生活氣息。",
+  "core_magic_refs": [
+    "glow_fruit",
+    "dream_wool",
+    "wind_messengers"
+  ]
+}]

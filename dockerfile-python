@@ -1,0 +1,35 @@
+FROM nvidia/cuda:12.9.1-base-ubuntu20.04
+FROM python:3.12
+
+ENV LISTEN_PORT=3000
+EXPOSE 3000
+
+WORKDIR /Code
+
+COPY ./Code /Code
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+        build-essential sudo libgl1 cmake cron && \
+    rm -rf /var/lib/apt/lists/*
+	
+
+#RUN apt install sudo -y && \
+#    sudo apt install build-essential && \
+#    sudo apt install libgl1 -y && \
+#	sudo apt install cmake -y && \
+#	cd / && sudo git clone --recursive https://github.com/ggerganov/llama.cpp && \
+#	cd /llama.cpp && \
+#	sudo cmake -B build && cmake --build build --config Release
+
+RUN pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
+
+RUN pip3 install -r /Code/requirements.txt
+
+RUN echo '0 8 * * 1,4 bash -c "cd /Code/GenNews && /usr/local/bin/python GenNews_DM.py >> /var/log/cron.log 2>&1"' \
+    > /etc/cron.d/gennews-cron && \
+    chmod 0644 /etc/cron.d/gennews-cron && \
+    crontab /etc/cron.d/gennews-cron && \
+    touch /var/log/cron.log
+
+CMD ["sh", "-c", "service cron start && python /Code/api.py"]
